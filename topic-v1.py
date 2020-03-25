@@ -23,7 +23,7 @@ def preprocess(text):
     return result
 
 if __name__ == '__main__':
-    data = pd.read_csv("D:\\SUMMER\\sathi\\topic-modelling\\data.csv", error_bad_lines=False)
+    data = pd.read_csv("data.csv", error_bad_lines=False)
     data_text = data[['command']]
     data_text['index'] = data_text.index
     documents = data_text
@@ -42,7 +42,6 @@ if __name__ == '__main__':
     stemmer = PorterStemmer()
 
     processed_docs = documents['command'].map(preprocess)
-    # print(processed_docs[:20])
 
     dictionary = gensim.corpora.Dictionary(processed_docs)
     bow_corpus = [dictionary.doc2bow(doc) for doc in processed_docs]
@@ -59,9 +58,8 @@ if __name__ == '__main__':
     #    print('Topic: {} Word: {}'.format(idx, topic))
 
 
-
     ##### test
-    unseen_document = 'Hello'
+    unseen_document = 'i want to know your color'
     bow_vector = dictionary.doc2bow(preprocess(unseen_document))
 
     for index, score in sorted(lda_model_tfidf[bow_vector], key=lambda tup: -1*tup[1]):
